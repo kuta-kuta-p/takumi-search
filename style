@@ -1,0 +1,38 @@
+body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
+        .filter-group { margin-bottom: 15px; }
+        button { padding: 5px 15px; margin: 0 5px 5px 0; cursor: pointer; }
+        input[type="text"] { padding: 8px; width: 300px; border: 1px solid #ccc; border-radius: 4px; }
+        .card { border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #f9f9f9; }
+        .card h3 { margin: 0 0 10px 0; color: #333; }
+        .element { display: inline-block; padding: 3px 8px; background: #333; color: white; border-radius: 4px; font-size: 0.8em; margin-right: 5px; }
+        .type-badge { display: inline-block; padding: 3px 8px; background: #007bff; color: white; border-radius: 4px; font-size: 0.8em; margin-right: 10px; }
+        .tag { display: inline-block; padding: 2px 8px; background: #e0e0e0; border-radius: 10px; font-size: 0.8em; margin-right: 5px; }
+
+        /* 属性ごとの色設定 */
+        .element.fire { background-color: #dc3545; } /* 火：赤 */
+        .element.water { background-color: #007bff; } /* 水：青 */
+        .element.earth { background-color: #d2691e; } /* 土：暗めのオレンジ */
+        .element.wood { background-color: #28a745; } /* 木：緑 */
+        .element.wind { background-color: #6c757d; } /* 風：グレー */
+
+        /* スマホ向けレスポンシブ対応 */
+        @media (max-width: 600px) {
+            input[type="text"] {
+                width: 100%;
+                box-sizing: border-box;
+                font-size: 16px; /* 入力時のズーム防止 */
+                padding: 10px;
+            }
+            .filter-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .filter-group strong { width: 100%; margin-bottom: 5px; }
+            button {
+                padding: 12px 10px;
+                font-size: 16px;
+                flex-grow: 1; /* 横幅いっぱいに広げる */
+                margin: 0;
+            }
+        }
