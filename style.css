@@ -14,6 +14,8 @@ body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
         .element.earth { background-color: #d2691e; } /* 土：暗めのオレンジ */
         .element.wood { background-color: #28a745; } /* 木：緑 */
         .element.wind { background-color: #6c757d; } /* 風：グレー */
+        .element.special { background-color: #800080; } /* SPECIAL：紫 */
+        .element.dark { background-color: #000000; } /* 闇：黒 */
 
         /* スマホ向けレスポンシブ対応 */
         @media (max-width: 600px) {
@@ -32,7 +34,19 @@ body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
             button {
                 padding: 12px 10px;
                 font-size: 16px;
-                flex-grow: 1; /* 横幅いっぱいに広げる */
+                width: 100%; /* 基本は横幅いっぱい（リセットボタンなど） */
                 margin: 0;
+            }
+
+            /* 種類エリア：2列表示 */
+            #type-area button {
+                width: calc((100% - 8px) / 2); /* gap 8px分を引いて2等分 */
+            }
+
+            /* 属性エリア：5列表示 */
+            #element-area button {
+                width: calc((100% - 32px) / 5); /* gap 8px * 4 = 32px分を引いて5等分 */
+                padding: 12px 0; /* 幅が狭いので余白を詰める */
+                font-size: 12px; /* 文字サイズを調整して収める */
             }
         }
