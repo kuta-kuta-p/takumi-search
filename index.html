@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>匠の守護者 カード検索</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
@@ -19,21 +19,22 @@
         <div class="filter-group">
             <button onclick="filterCards('all')">すべて表示 / リセット</button>
         </div>
-        <div class="filter-group">
+        <div class="filter-group" id="type-area">
             <strong>種類：</strong>
             <button onclick="filterCards('守護者')">守護者</button>
             <button onclick="filterCards('オーダー')">オーダー</button>
             <button onclick="filterCards('アドバンス')">アドバンス</button>
             <button onclick="filterCards('マテリアル')">マテリアル</button>
         </div>
-        <div class="filter-group">
+        <div class="filter-group" id="element-area">
             <strong>属性：</strong>
-            <button onclick="filterCards('水属性')">水属性</button>
-            <button onclick="filterCards('火属性')">火属性</button>
-            <button onclick="filterCards('木属性')">木属性</button>
-            <button onclick="filterCards('風属性')">風属性</button>
-            <button onclick="filterCards('土属性')">土属性</button>
-            <button onclick="filterCards('闇属性')">闇属性</button>
+            <button onclick="filterCards('水')">水</button>
+            <button onclick="filterCards('火')">火</button>
+            <button onclick="filterCards('木')">木</button>
+            <button onclick="filterCards('風')">風</button>
+            <button onclick="filterCards('土')">土</button>
+            <button onclick="filterCards('闇')">闇</button>
+            <button onclick="filterCards('SPECIAL')">SP</button>
         </div>
     </div>
 
@@ -43,4 +44,3 @@
 
 </body>
 </html>
-
