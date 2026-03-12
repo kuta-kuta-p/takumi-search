@@ -18,24 +18,24 @@
         </div>
 
         <div class="filter-group">
-            <button onclick="filterCards('all')">すべて表示 / リセット</button>
+            <button onclick="resetFilters()">すべて表示 / リセット</button>
         </div>
         <div class="filter-group" id="type-area">
             <strong>種類：</strong>
-            <button onclick="filterCards('守護者')">守護者</button>
-            <button onclick="filterCards('オーダー')">オーダー</button>
-            <button onclick="filterCards('アドバンス')">アドバンス</button>
-            <button onclick="filterCards('マテリアル')">マテリアル</button>
+            <button onclick="filterByType('守護者')">守護者</button>
+            <button onclick="filterByType('オーダー')">オーダー</button>
+            <button onclick="filterByType('アドバンス')">アドバンス</button>
+            <button onclick="filterByType('マテリアル')">マテリアル</button>
         </div>
         <div class="filter-group" id="element-area">
             <strong>属性：</strong>
-            <button class="element fire"  onclick="filterCards('火')">火</button>
-            <button class="element water" onclick="filterCards('水')">水</button>
-            <button class="element wood"  onclick="filterCards('木')">木</button>
-            <button class="element wind"  onclick="filterCards('風')">風</button>
-            <button class="element earth" onclick="filterCards('土')">土</button>
-            <button class="element special" onclick="filterCards('SPECIAL')">SP</button>
-            <button class="element dark" onclick="filterCards('闇')">闇</button>
+            <button class="element fire"  onclick="filterByElement('火')">火</button>
+            <button class="element water" onclick="filterByElement('水')">水</button>
+            <button class="element wood"  onclick="filterByElement('木')">木</button>
+            <button class="element wind"  onclick="filterByElement('風')">風</button>
+            <button class="element earth" onclick="filterByElement('土')">土</button>
+            <button class="element special" onclick="filterByElement('SPECIAL')">SP</button>
+            <button class="element dark" onclick="filterByElement('闇')">闇</button>
         </div>
     </div>
 
@@ -45,4 +45,3 @@
 
 </body>
 </html>
-
