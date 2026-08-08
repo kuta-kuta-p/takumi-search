@@ -2,46 +2,326 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="noindex">
-    <title>匠の守護者 カード検索</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Score Counter</title>
+    <!-- Use Inter font for a premium modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-1: #3b82f6; /* Blue for player 1 */
+            --accent-1-glow: rgba(59, 130, 246, 0.5);
+            --accent-2: #ec4899; /* Pink for player 2 */
+            --accent-2-glow: rgba(236, 72, 153, 0.5);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            user-select: none; /* Prevent text selection on double tap */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 30%),
+                radial-gradient(circle at 85% 50%, rgba(236, 72, 153, 0.15), transparent 30%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (min-width: 501px) {
+            .app-container {
+                height: 90vh;
+                max-height: 850px;
+                border-radius: 30px;
+            }
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .player {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        /* Rotate Player 1 so they can use it from the other side */
+        .player-1 {
+            transform: rotate(180deg);
+        }
+
+        .player-name-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: background 0.2s;
+        }
+        
+        .player-name-container:active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .player-name {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .player-1 .player-name {
+            color: var(--accent-1);
+            text-shadow: 0 0 15px var(--accent-1-glow);
+        }
+
+        .player-2 .player-name {
+            color: var(--accent-2);
+            text-shadow: 0 0 15px var(--accent-2-glow);
+        }
+
+        .player-role {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 14px;
+            border-radius: 16px;
+            display: none; /* hidden by default */
+        }
+        
+        .player-role.active {
+            display: inline-block;
+        }
+
+        .player-role.first {
+            color: #fbbf24; /* vibrant golden yellow */
+            background: rgba(251, 191, 36, 0.25);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+        }
+
+        .player-role.second {
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid transparent;
+        }
+
+        .score-container {
+            position: relative;
+            width: 100%;
+            height: 250px; /* Even larger touch target for mobile */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .score-display {
+            font-size: 8rem;
+            font-weight: 900;
+            z-index: 10;
+            pointer-events: none; /* Let touches pass through to hit areas */
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        .player-1 .score-display {
+            color: var(--text-primary);
+        }
+
+        .player-2 .score-display {
+            color: var(--text-primary);
+        }
+
+        /* Touch areas overlaying the container */
+        .hit-area {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            z-index: 20;
+            cursor: pointer;
+        }
+
+        .decrease {
+            left: 0;
+        }
+
+        .increase {
+            right: 0;
+        }
+
+        /* Visual feedback on tap for the hit areas */
+        .hit-area:active {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Subtle physical feel when pressing left or right */
+        .decrease:active ~ .score-display {
+            transform: scale(0.95) translateX(-8px);
+        }
+
+        .increase:active ~ .score-display {
+            transform: scale(0.95) translateX(8px);
+        }
+
+        /* Subtle background hints for - and + zones */
+        .score-container::before, .score-container::after {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            opacity: 0.15;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .score-container::before {
+            content: '-';
+            left: 25px;
+        }
+
+        .score-container::after {
+            content: '+';
+            right: 25px;
+        }
+
+        .center-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0;
+            width: 100%;
+        }
+
+        #reset-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            backdrop-filter: blur(5px);
+        }
+
+        #reset-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 10px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Micro-animation class added by JS */
+        @keyframes pop-up {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes pop-down {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1); }
+        }
+
+        .pop-up {
+            animation: pop-up 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .pop-down {
+            animation: pop-down 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
 </head>
 <body>
+    <div class="app-container">
+        <main>
+            <!-- Player 1 -->
+            <div class="player player-1">
+                <div class="player-name-container" data-player="1">
+                    <span class="player-name">Player 1</span>
+                    <span class="player-role" id="role-1"></span>
+                </div>
+                <div class="score-container">
+                    <div class="hit-area decrease" data-player="1"></div>
+                    <div class="score-display" id="score-1">1</div>
+                    <div class="hit-area increase" data-player="1"></div>
+                </div>
+            </div>
+            
+            <!-- Center Controls -->
+            <div class="center-controls">
+                <button id="reset-btn">RESET</button>
+            </div>
 
-    <h1>匠の守護者 カード検索</h1>
-
-    <div id="filters">
-        <div class="filter-group">
-            <strong>フリーワード：</strong>
-            <input type="text" id="searchInput" placeholder="名前、効果、タグなどを入力" onkeyup="searchCards()">
-        </div>
-
-        <div class="filter-group">
-            <button onclick="resetFilters()">すべて表示 / リセット</button>
-        </div>
-        <div class="filter-group" id="type-area">
-            <strong>種類：</strong>
-            <button onclick="filterByType('守護者')">守護者</button>
-            <button onclick="filterByType('オーダー')">オーダー</button>
-            <button onclick="filterByType('アドバンス')">アドバンス</button>
-            <button onclick="filterByType('マテリアル')">マテリアル</button>
-        </div>
-        <div class="filter-group" id="element-area">
-            <strong>属性：</strong>
-            <button class="element fire"  onclick="filterByElement('火')">火</button>
-            <button class="element water" onclick="filterByElement('水')">水</button>
-            <button class="element wood"  onclick="filterByElement('木')">木</button>
-            <button class="element wind"  onclick="filterByElement('風')">風</button>
-            <button class="element earth" onclick="filterByElement('土')">土</button>
-            <button class="element special" onclick="filterByElement('SPECIAL')">SP</button>
-            <button class="element dark" onclick="filterByElement('闇')">闇</button>
-        </div>
+            <!-- Player 2 -->
+            <div class="player player-2">
+                <div class="player-name-container" data-player="2">
+                    <span class="player-name">Player 2</span>
+                    <span class="player-role" id="role-2"></span>
+                </div>
+                <div class="score-container">
+                    <div class="hit-area decrease" data-player="2"></div>
+                    <div class="score-display" id="score-2">1</div>
+                    <div class="hit-area increase" data-player="2"></div>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <div id="card-list"></div>
-
-    <script src="script.js"></script>
-
+    <!-- Include JS file -->
+    <script src="common.js"></script>
 </body>
 </html>
