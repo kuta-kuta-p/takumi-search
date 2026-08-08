@@ -98,22 +98,22 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     setTimeout(resetScores, 50);
 });
 
-// Event Listeners for Player Name to set First/Second player
-document.querySelectorAll('.player-name-container').forEach(container => {
-    container.addEventListener('click', (e) => {
-        const clickedPlayer = container.dataset.player;
+// Event Listeners for Player Role Buttons (手番ボタン)
+document.querySelectorAll('.player-role-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const clickedPlayer = btn.dataset.player;
         const otherPlayer = clickedPlayer === '1' ? '2' : '1';
         
         // Update Roles
         const roleEl1 = document.getElementById(`role-${clickedPlayer}`);
         roleEl1.textContent = '先行';
         roleEl1.classList.remove('second');
-        roleEl1.classList.add('active', 'first');
+        roleEl1.classList.add('first');
         
         const roleEl2 = document.getElementById(`role-${otherPlayer}`);
         roleEl2.textContent = '後攻';
         roleEl2.classList.remove('first');
-        roleEl2.classList.add('active', 'second');
+        roleEl2.classList.add('second');
     });
 });
 
