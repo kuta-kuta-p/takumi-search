@@ -155,9 +155,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.7);
+            background: #e2e8f0; /* Bright gray */
             border-radius: 28px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid #cbd5e1;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 5px 15px rgba(0,0,0,0.05);
             overflow: hidden;
         }
@@ -168,7 +168,8 @@
             z-index: 10;
             pointer-events: none; /* Let touches pass through to hit areas */
             transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            -webkit-text-stroke: 2px #ffffff; /* White outline */
+            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .player-1 .score-display {
@@ -203,25 +204,25 @@
         }
 
         /* Subtle physical feel when pressing left or right */
-        .decrease:active ~ .score-display {
+        .decrease:active ~ .score-wrapper {
             transform: scale(0.95) translateX(-8px);
         }
 
-        .increase:active ~ .score-display {
+        .increase:active ~ .score-wrapper {
             transform: scale(0.95) translateX(8px);
         }
 
-        /* Subtle background hints for - and + zones */
         .score-container::before, .score-container::after {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 3rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-            opacity: 0.15;
+            font-size: 4rem; /* Slightly larger */
+            color: #ffffff; /* White */
+            font-weight: 800;
+            opacity: 0.8; /* More visible */
             z-index: 5;
             pointer-events: none;
+            -webkit-text-stroke: 1px rgba(0,0,0,0.1); /* Slight dark outline to ensure visibility */
         }
 
         .score-container::before {
@@ -243,8 +244,8 @@
         }
 
         #reset-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid var(--glass-border);
+            background: #e2e8f0; /* Bright gray */
+            border: 1px solid #cbd5e1;
             color: var(--text-primary);
             padding: 15px 40px;
             border-radius: 30px;
@@ -254,12 +255,11 @@
             transition: all 0.2s ease;
             box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.1);
             letter-spacing: 2px;
-            backdrop-filter: blur(5px);
         }
 
         #reset-btn:active {
             transform: scale(0.95);
-            background: rgba(255, 255, 255, 1);
+            background: #cbd5e1;
             box-shadow: 0 2px 8px -3px rgba(0, 0, 0, 0.1);
         }
 
@@ -283,6 +283,51 @@
         .pop-down {
             animation: pop-down 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
+        .advantage-btn {
+            background: #cbd5e1;
+            color: var(--text-primary);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .advantage-btn.active {
+            background: #ef4444; /* red */
+            color: white;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+        }
+
+        .score-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: none;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .advantage-display {
+            color: #ef4444; /* red */
+            font-size: 1.8rem;
+            font-weight: 900;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform: translateY(10px);
+            margin-top: -15px; /* Pull it slightly up under the score */
+            -webkit-text-stroke: 1px #ffffff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .advantage-display.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -291,12 +336,16 @@
             <!-- Player 1 -->
             <div class="player player-1">
                 <div class="player-name-container" data-player="1">
+                    <button class="advantage-btn" data-player="1" id="adv-btn-1">有利</button>
                     <span class="player-name">Player 1</span>
                     <span class="player-role" id="role-1"></span>
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="1"></div>
-                    <div class="score-display" id="score-1">1</div>
+                    <div class="score-wrapper">
+                        <div class="score-display" id="score-1">1</div>
+                        <div class="advantage-display" id="adv-disp-1">+1</div>
+                    </div>
                     <div class="hit-area increase" data-player="1"></div>
                 </div>
             </div>
@@ -309,12 +358,16 @@
             <!-- Player 2 -->
             <div class="player player-2">
                 <div class="player-name-container" data-player="2">
+                    <button class="advantage-btn" data-player="2" id="adv-btn-2">有利</button>
                     <span class="player-name">Player 2</span>
                     <span class="player-role" id="role-2"></span>
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="2"></div>
-                    <div class="score-display" id="score-2">1</div>
+                    <div class="score-wrapper">
+                        <div class="score-display" id="score-2">1</div>
+                        <div class="advantage-display" id="adv-disp-2">+1</div>
+                    </div>
                     <div class="hit-area increase" data-player="2"></div>
                 </div>
             </div>
