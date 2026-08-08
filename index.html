@@ -121,31 +121,29 @@
             text-shadow: 0 0 10px var(--accent-2-glow);
         }
 
-        .player-role {
+        .player-role-btn {
             font-size: 1.15rem;
             font-weight: 900;
-            color: var(--text-primary);
+            color: var(--text-secondary);
             background: rgba(0, 0, 0, 0.05);
             padding: 4px 14px;
             border-radius: 16px;
-            display: none; /* hidden by default */
-        }
-        
-        .player-role.active {
-            display: inline-block;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .player-role.first {
+        .player-role-btn.first {
             color: #d97706; /* deeper orange/gold for contrast on light bg */
             background: rgba(245, 158, 11, 0.15);
             border: 1px solid rgba(245, 158, 11, 0.5);
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.1);
         }
 
-        .player-role.second {
-            color: var(--text-secondary);
-            background: rgba(0, 0, 0, 0.04);
-            border: 1px solid transparent;
+        .player-role-btn.second {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .score-container {
@@ -204,11 +202,11 @@
         }
 
         /* Subtle physical feel when pressing left or right */
-        .decrease:active ~ .score-wrapper {
+        .decrease:active ~ .score-display {
             transform: scale(0.95) translateX(-8px);
         }
 
-        .increase:active ~ .score-wrapper {
+        .increase:active ~ .score-display {
             transform: scale(0.95) translateX(8px);
         }
 
@@ -302,26 +300,19 @@
             box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
         }
 
-        .score-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            pointer-events: none;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
         .advantage-display {
+            position: absolute;
+            bottom: 12%; /* Place it securely within the container */
             color: #ef4444; /* red */
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 900;
             opacity: 0;
             transition: opacity 0.2s ease, transform 0.2s ease;
             transform: translateY(10px);
-            margin-top: -15px; /* Pull it slightly up under the score */
             -webkit-text-stroke: 1px #ffffff;
             text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 15;
+            pointer-events: none;
         }
 
         .advantage-display.active {
@@ -338,14 +329,12 @@
                 <div class="player-name-container" data-player="1">
                     <button class="advantage-btn" data-player="1" id="adv-btn-1">有利</button>
                     <span class="player-name">Player 1</span>
-                    <span class="player-role" id="role-1"></span>
+                    <button class="player-role-btn" data-player="1" id="role-1">未定</button>
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="1"></div>
-                    <div class="score-wrapper">
-                        <div class="score-display" id="score-1">1</div>
-                        <div class="advantage-display" id="adv-disp-1">+1</div>
-                    </div>
+                    <div class="score-display" id="score-1">1</div>
+                    <div class="advantage-display" id="adv-disp-1">+1</div>
                     <div class="hit-area increase" data-player="1"></div>
                 </div>
             </div>
@@ -360,14 +349,12 @@
                 <div class="player-name-container" data-player="2">
                     <button class="advantage-btn" data-player="2" id="adv-btn-2">有利</button>
                     <span class="player-name">Player 2</span>
-                    <span class="player-role" id="role-2"></span>
+                    <button class="player-role-btn" data-player="2" id="role-2">未定</button>
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="2"></div>
-                    <div class="score-wrapper">
-                        <div class="score-display" id="score-2">1</div>
-                        <div class="advantage-display" id="adv-disp-2">+1</div>
-                    </div>
+                    <div class="score-display" id="score-2">1</div>
+                    <div class="advantage-display" id="adv-disp-2">+1</div>
                     <div class="hit-area increase" data-player="2"></div>
                 </div>
             </div>
