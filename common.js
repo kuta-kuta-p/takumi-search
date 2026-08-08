@@ -72,6 +72,10 @@ function resetScores() {
     
     scoreElements[1].classList.remove('pop-up', 'pop-down');
     scoreElements[2].classList.remove('pop-up', 'pop-down');
+
+    // Reset Advantage states
+    document.querySelectorAll('.advantage-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.advantage-display').forEach(disp => disp.classList.remove('active'));
 }
 
 // Event Listeners for tap areas
@@ -110,5 +114,26 @@ document.querySelectorAll('.player-name-container').forEach(container => {
         roleEl2.textContent = '後攻';
         roleEl2.classList.remove('first');
         roleEl2.classList.add('active', 'second');
+    });
+});
+
+// Event Listeners for Advantage Buttons
+document.querySelectorAll('.advantage-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering the player name click
+        
+        const player = btn.dataset.player;
+        const otherPlayer = player === '1' ? '2' : '1';
+        
+        // Toggle this button
+        btn.classList.toggle('active');
+        const advDisp = document.getElementById(`adv-disp-${player}`);
+        advDisp.classList.toggle('active');
+        
+        // Ensure the other player's advantage is deactivated (mutually exclusive)
+        if (btn.classList.contains('active')) {
+            document.getElementById(`adv-btn-${otherPlayer}`).classList.remove('active');
+            document.getElementById(`adv-disp-${otherPlayer}`).classList.remove('active');
+        }
     });
 });
