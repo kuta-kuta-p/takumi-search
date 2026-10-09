@@ -74,12 +74,27 @@
         }
 
         .player {
+            position: relative;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             flex: 1;
             justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 28px;
+            margin: 5px 0;
+            padding: 15px 10px;
+            background: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .player.is-first {
+            background-color: #ffedd5; /* Soft orange for first player */
+            border-color: #fdba74;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 5px 20px rgba(245, 158, 11, 0.2);
         }
 
         /* Rotate Player 1 so they can use it from the other side */
@@ -126,11 +141,12 @@
             font-weight: 900;
             color: var(--text-secondary);
             background: rgba(0, 0, 0, 0.05);
-            padding: 4px 14px;
-            border-radius: 16px;
+            padding: 10px 25px;
+            border-radius: 20px;
             border: 1px solid transparent;
             cursor: pointer;
             transition: all 0.2s ease;
+            min-width: 100px;
         }
 
         .player-role-btn.first {
@@ -149,15 +165,11 @@
         .score-container {
             position: relative;
             width: 100%;
-            height: 250px; /* Even larger touch target for mobile */
+            flex: 1; /* Fill the remaining height of .player */
+            min-height: 150px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #e2e8f0; /* Bright gray */
-            border-radius: 28px;
-            border: 1px solid #cbd5e1;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 5px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
         }
 
         .score-display {
@@ -286,12 +298,13 @@
             background: #cbd5e1;
             color: var(--text-primary);
             border: none;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.85rem;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 0.95rem;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.2s ease;
+            min-width: 100px;
         }
 
         .advantage-btn.active {
