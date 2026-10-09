@@ -15,6 +15,33 @@ const scoreElements = {
 };
 
 /**
+ * Updates the score difference displays.
+ */
+function updateDiff() {
+    const diff1 = scores[1] - scores[2];
+    const diff2 = scores[2] - scores[1];
+
+    const diffEl1 = document.getElementById('diff-1');
+    const diffEl2 = document.getElementById('diff-2');
+
+    // Update Player 1
+    if (diff1 === 0) {
+        diffEl1.classList.remove('active');
+    } else {
+        diffEl1.textContent = diff1 > 0 ? `+${diff1}P` : `${diff1}P`;
+        diffEl1.className = 'diff-display active ' + (diff1 > 0 ? 'positive' : 'negative');
+    }
+
+    // Update Player 2
+    if (diff2 === 0) {
+        diffEl2.classList.remove('active');
+    } else {
+        diffEl2.textContent = diff2 > 0 ? `+${diff2}P` : `${diff2}P`;
+        diffEl2.className = 'diff-display active ' + (diff2 > 0 ? 'positive' : 'negative');
+    }
+}
+
+/**
  * Updates the score for a player and triggers a re-render.
  * @param {string|number} player - The player ID (1 or 2)
  * @param {number} change - The amount to change (-1 or 1)
@@ -33,6 +60,7 @@ function updateScore(player, change) {
     if (newScore !== scores[player]) {
         scores[player] = newScore;
         renderScore(player, change > 0 ? 'up' : 'down');
+        updateDiff();
     }
 }
 
@@ -72,6 +100,9 @@ function resetScores() {
     
     scoreElements[1].classList.remove('pop-up', 'pop-down');
     scoreElements[2].classList.remove('pop-up', 'pop-down');
+
+    // Reset differences
+    updateDiff();
 
     // Reset Advantage states
     document.querySelectorAll('.advantage-btn').forEach(btn => btn.classList.remove('active'));
