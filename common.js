@@ -76,6 +76,15 @@ function resetScores() {
     // Reset Advantage states
     document.querySelectorAll('.advantage-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.advantage-display').forEach(disp => disp.classList.remove('active'));
+
+    // Reset roles and backgrounds
+    document.querySelectorAll('.player-role-btn').forEach(btn => {
+        btn.textContent = '未定';
+        btn.classList.remove('first', 'second');
+    });
+    document.querySelectorAll('.player').forEach(player => {
+        player.classList.remove('is-first');
+    });
 }
 
 // Event Listeners for tap areas
@@ -114,6 +123,10 @@ document.querySelectorAll('.player-role-btn').forEach(btn => {
         roleEl2.textContent = '後攻';
         roleEl2.classList.remove('first');
         roleEl2.classList.add('second');
+
+        // Update Background Color
+        document.querySelector(`.player-${clickedPlayer}`).classList.add('is-first');
+        document.querySelector(`.player-${otherPlayer}`).classList.remove('is-first');
     });
 });
 
