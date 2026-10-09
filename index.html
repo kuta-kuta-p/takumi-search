@@ -332,6 +332,33 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        .diff-display {
+            position: absolute;
+            top: 15px;
+            font-size: 2rem;
+            font-weight: 900;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            transform: translateY(-5px);
+            -webkit-text-stroke: 1px #ffffff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .diff-display.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .diff-display.positive {
+            color: #ef4444; /* Red for lead */
+        }
+
+        .diff-display.negative {
+            color: #3b82f6; /* Blue for behind */
+        }
     </style>
 </head>
 <body>
@@ -346,6 +373,7 @@
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="1"></div>
+                    <div class="diff-display" id="diff-1"></div>
                     <div class="score-display" id="score-1">1</div>
                     <div class="advantage-display" id="adv-disp-1">+1</div>
                     <div class="hit-area increase" data-player="1"></div>
@@ -366,6 +394,7 @@
                 </div>
                 <div class="score-container">
                     <div class="hit-area decrease" data-player="2"></div>
+                    <div class="diff-display" id="diff-2"></div>
                     <div class="score-display" id="score-2">1</div>
                     <div class="advantage-display" id="adv-disp-2">+1</div>
                     <div class="hit-area increase" data-player="2"></div>
